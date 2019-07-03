@@ -24,14 +24,14 @@ def data_catalog(request, project=None, template='catalog.html'):
             if project_logo:
                 url_validator = URLValidator(verify_exists=False)
                 url_validator(project_logo)
-        except ValidationError, e:
+        except ValidationError as e:
             project_logo = os.path.join(settings.MEDIA_URL, project_logo) 
             
         project_icon = activeSettings.project_icon 
         try:
             url_validator = URLValidator(verify_exists=False)
             url_validator(project_icon)
-        except ValidationError, e:
+        except ValidationError as e:
             project_icon = os.path.join(settings.MEDIA_URL, project_icon)  
             
         project_home_page = activeSettings.project_home_page 

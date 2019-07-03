@@ -1,4 +1,5 @@
 <!doctype html>
+{% load static %}
 <!--[if IEMobile 7 ]>
     <html dir="ltr" lang="en-US" class="no-js iem7">
     <![endif]-->
@@ -15,7 +16,7 @@
                     <!-->
                     <html dir="ltr" lang="en-US" class="no-js">
                     <!--<![endif]-->
-                    
+
                     <head>
                         <meta charset="utf-8">
                         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -29,7 +30,7 @@
                             #feedback-tab {
                                 -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=-1.836909530733566e-16, M12=-1, M21=1, M22=-1.836909530733566e-16, SizingMethod='auto expand')";
                                 left: 0px;
-                                /* IE6 and 7 */ 
+                                /* IE6 and 7 */
                                 filter: progid:DXImageTransform.Microsoft.Matrix(
                                          M11=-1.836909530733566e-16,
                                          M12=-1,
@@ -39,7 +40,7 @@
 
                               }
                             </style>
-                            <script src="{{MEDIA_URL}}mp/js/respond.min.js"></script>
+                            <script src="{% static 'mp/js/respond.min.js' %}"></script>
                         <![endif]-->
                         <!-- html5.js -->
                         <!--[if lt IE 9]>
@@ -47,18 +48,18 @@
                             </script>
                         <![endif]-->
                         <!--[if IE]>
-                                <link rel="stylesheet" href="{{MEDIA_URL}}mp/css/mp/mp_style.ie.css">
-                        <![endif]-->        
-                        
-                        <link rel="stylesheet" href="/media/assets/bootstrap/bootstrap.css">
-                        <link rel="stylesheet" href="/media/assets/bootstrap/bootstrap-responsive.css">
+                                <link rel="stylesheet" href="{% static 'mp/css/mp/mp_style.ie.css' %}">
+                        <![endif]-->
+
+                        <link rel="stylesheet" href="{% static 'assets/bootstrap/bootstrap.css' %}">
+                        <link rel="stylesheet" href="{% static 'assets/bootstrap/bootstrap-responsive.css' %}">
 
                         <!-- marine planner stylesheet -->
-                        <link rel="stylesheet" href="/media/css/mp_style.css">
-                        <link rel="stylesheet" href="/media/wcodp/css/wcodp.css">
+                        <link rel="stylesheet" href="{% static 'css/mp_style.css' %}">
+                        <link rel="stylesheet" href="{% static 'wcodp/css/wcodp.css' %}">
 
                         <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/themes/base/jquery-ui.css">
-                        <link rel="shortcut icon" href="/media/ico/favicon.ico">
+                        <link rel="shortcut icon" href="{% static 'ico/favicon.ico' %}">
                         <style>
                             body {
                                 margin-top: 110px;
@@ -72,11 +73,11 @@
                             }
                         </style>
                         <!--[if IE 7]>
-                          <link rel="stylesheet" href="{{MEDIA_URL}}mp/css/font/font-awesome-ie7.css">
+                          <link rel="stylesheet" href="{% static 'mp/css/font/font-awesome-ie7.css' %}">
                         <![endif]-->
 
                     </head>
-                    
+
                     <body class="wcodp blog">
                         <header role="banner">
                             <div class="navbar navbar-fixed-top">
@@ -102,7 +103,7 @@
                                 </div>
                             </div>
                         </header>
-                        
+
                         <!-- end header -->
                         <div class="container">
                             <div id="content" class="row-fluid">
@@ -118,25 +119,25 @@
                                 </div>
                                 <!-- end #content -->
                                 <hr>
-                                
+
                                 <footer>
                                 </footer>
-                                
+
                             </div>
                             <!-- end #container -->
                             <!-- scripts are now optimized via Modernizr.load -->
-                            <script src="/media/assets/jquery/jquery.js"></script>  
-                            <script src="/media/assets/jquery/jquery-ui.js"></script>
-                            <script src="/media/assets/bootstrap/bootstrap-transition.js"></script>
-                            <script src="/media/assets/bootstrap/bootstrap-typeahead.js"></script>   
-                            <script src="/media/assets/bootstrap/bootstrap-tooltip.js"></script>
-                            <script src="/media/assets/bootstrap/bootstrap-popover.js"></script>
-                            <script src="/media/assets/bootstrap/bootstrap-modal.js"></script>
-                            <script src="/media/assets/bootstrap/bootstrap-collapse.js"></script>  
+                            <script src="{% static 'assets/jquery/jquery.js' %}"></script>
+                            <script src="{% static 'assets/jquery/jquery-ui.js' %}"></script>
+                            <script src="{% static 'assets/bootstrap/bootstrap-transition.js' %}"></script>
+                            <script src="{% static 'assets/bootstrap/bootstrap-typeahead.js' %}"></script>
+                            <script src="{% static 'assets/bootstrap/bootstrap-tooltip.js' %}"></script>
+                            <script src="{% static 'assets/bootstrap/bootstrap-popover.js' %}"></script>
+                            <script src="{% static 'assets/bootstrap/bootstrap-modal.js' %}"></script>
+                            <script src="{% static 'assets/bootstrap/bootstrap-collapse.js' %}"></script>
                             <script>
                             if (!Array.prototype.indexOf) {
 
-                            
+
                                 Array.prototype.indexOf = function(obj, start) {
                                      for (var i = (start || 0), j = this.length; i < j; i++) {
                                          if (this[i] === obj) { return i; }
@@ -164,7 +165,7 @@
                            });
                            $('.attrib').hover(
                             function (event) {
-                                var $target = $(event.target), 
+                                var $target = $(event.target),
                                     $text = $target.find('.text');
                                 $text.show().position({
                                     of: $target,
@@ -172,13 +173,13 @@
                                     at: "left bottom",
                                     offset: "2px"
                                 });
-                                    
+
                             },
                             function (event) {
                                 $(event.target).find('.text').hide();
                             }
                            );
-                           
+
                             var width = window.innerWidth;
                             if (width < 768) {
                                 var body = document.getElementsByTagName("body")[0];

@@ -1,6 +1,7 @@
-from django.conf.urls.defaults import *
+from django.urls import re_path, path, include
 from django.contrib import admin
 from django.views.generic import RedirectView
+from django.views.static import serve as static_serve
 
 from django.conf import settings
 from data_manager.api import LayerResource, ThemeResource, TocThemeResource
@@ -10,7 +11,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 import visualize
 import explore
 #from mapproxy.views import proxy_view
-#import map_proxy
+from map_proxy.views import mapproxy_view
 # print dir(map_proxy)
 admin.autodiscover()
 
@@ -20,40 +21,40 @@ v1_api.register(ThemeResource())
 v1_api.register(TocThemeResource())
 
 
-urlpatterns = patterns('',
-                        url('', include('social.apps.django_app.urls', namespace='social')),
-                       (r'^api/', include(v1_api.urls)),
-                       (r'^mp_profile/', include('mp_profile.urls')),
-                       #(r'^sdc/', include('scenarios.urls')),
-                       #(r'^drawing/', include('drawing.urls')),
-                       (r'^data_manager/', include('data_manager.urls')),
-                       #(r'^learn/', include('learn.urls')),
-                       #(r'^scenario/', include('scenarios.urls')),
-                       (r'^explore/', include('explore.urls')),
-                       (r'^visualize/', include('visualize.urls')),
-                       (r'^planner/', include('visualize.urls')),
-                       (r'^embed/', include('visualize.urls')),
-                       (r'^mobile/', include('visualize.urls')),
-                       (r'^feedback/', include('feedback.urls')),
-                       (r'^proxy/', include('mp_proxy.urls')),
-                       url(r'^mapproxy/(?P<path>.*)',
-                           'map_proxy.views.mapproxy_view'),
-                       (r'^([\w-]*)/planner/', visualize.views.show_planner),
-                       (r'^([\w-]*)/visualize/', visualize.views.show_planner),
-                       (r'^([\w-]*)/embed/',
+urlpatterns = [
+                       path('', include('social.apps.django_app.urls', namespace='social')),
+                       re_path(r'^api/', include(v1_api.urls)),
+                       re_path(r'^mp_profile/', include('mp_profile.urls')),
+                       #re_path(r'^sdc/', include('scenarios.urls')),
+                       #re_path(r'^drawing/', include('drawing.urls')),
+                       re_path(r'^data_manager/', include('data_manager.urls')),
+                       #re_path(r'^learn/', include('learn.urls')),
+                       #re_path(r'^scenario/', include('scenarios.urls')),
+                       re_path(r'^explore/', include('explore.urls')),
+                       re_path(r'^visualize/', include('visualize.urls')),
+                       re_path(r'^planner/', include('visualize.urls')),
+                       re_path(r'^embed/', include('visualize.urls')),
+                       re_path(r'^mobile/', include('visualize.urls')),
+                       re_path(r'^feedback/', include('feedback.urls')),
+                       re_path(r'^proxy/', include('mp_proxy.urls')),
+                       re_path(r'^mapproxy/(?P<path>.*)', mapproxy_view),
+                       re_path(r'^([\w-]*)/planner/', visualize.views.show_planner),
+                       re_path(r'^([\w-]*)/visualize/', visualize.views.show_planner),
+                       re_path(r'^([\w-]*)/embed/',
                         visualize.views.show_embedded_map),
-                       (r'^([\w-]*)/catalog/', explore.views.data_catalog),
-                       (r'^$', RedirectView.as_view(url='/visualize')),
-                       url("^media/admin/(?P<path>.*)$",
-                               "django.views.static.serve",
+                       re_path(r'^([\w-]*)/catalog/', explore.views.data_catalog),
+                       re_path(r'^$', RedirectView.as_view(url='/visualize')),
+                       re_path(r'^media/admin/(?P<path>.*)$',
+                               static_serve,
                                {"document_root": settings.ADMIN_MEDIA_PATH}),
-                       (r'', include('madrona.common.urls')),
-                       )
+                       re_path(r'', include('madrona.common.urls')),
+            ]
 
 
 if settings.DEBUG:
-    # urlpatterns = patterns(url("^media/admin/(?P<path>.*)$",
-    #     "django.views.static.serve",
+    # urlpatterns = [
+    #     re_path("^media/admin/(?P<path>.*)$",
+    #     static_serve,
     #     {"document_root": settings.ADMIN_MEDIA_PATH})) + urlpatterns
-  
+
     urlpatterns += staticfiles_urlpatterns()

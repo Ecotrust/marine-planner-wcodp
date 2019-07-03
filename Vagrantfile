@@ -2,43 +2,47 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-    config.vm.box = "precise32"
-    config.vm.box_url = "http://files.vagrantup.com/precise32.box"
+    config.vm.box = "ubuntu/bionic64"
+    # config.vm.box = "centos/7"
+    # config.vm.box = "precise32"
+    # config.vm.box_url = "http://files.vagrantup.com/precise32.box"
 
     config.vm.network :forwarded_port, guest: 80, host: 8080  # nginx
     config.vm.network :forwarded_port, guest: 8889, host: 8889  # mapproxy
     config.vm.network :forwarded_port, guest: 8000, host: 8000  # django dev server
     config.vm.network :forwarded_port, guest: 5432, host: 15432  # postgresql
 
-    config.vm.hostname = "marine-planner"
+    config.vm.synced_folder "./", "/usr/local/apps/WCODP"
+
+    # config.vm.hostname = "marine-planner"
 
     config.vm.provider :virtualbox do |vb|
         vb.customize ["modifyvm", :id, "--memory", 256]
     end
 
-    config.vm.provision "ansible" do |ansible|
-      ansible.sudo = true
-      ansible.playbook = "../devops/provisioning/vagrant.yml"
-      ansible.extra_vars = {
-            repo: 'https://github.com/point97/marine-planner.git',
-            branch: 'wcodp-md-staging',
-            name: 'marine-planner',
-            app: 'mp',
-            local_settings: 'mp/settings_local.py',
-            settings: 'settings',
-            assets_dir: 'media',
-            redis: false,
-            installmedia: true,
-            enable_sharing: true,
-            gplus: {
-                key: '40588472264-7qt1n9prnkpj40ivnuuck4jcntbknluk.apps.googleusercontent.com',
-                secret: 'e8aiVDsZGUGqyNK-8tmMq3Wv'
-            },
-            srids: [99996]
-        }
-      # ansible.inventory_path = "hosts.ini"
-      # ansible.limit = "vagrant-apps"
-    end
+    # config.vm.provision "ansible" do |ansible|
+    #   ansible.sudo = true
+    #   ansible.playbook = "../devops/provisioning/vagrant.yml"
+    #   ansible.extra_vars = {
+    #         repo: 'https://github.com/point97/marine-planner.git',
+    #         branch: 'wcodp-md-staging',
+    #         name: 'marine-planner',
+    #         app: 'mp',
+    #         local_settings: 'mp/settings_local.py',
+    #         settings: 'settings',
+    #         assets_dir: 'media',
+    #         redis: false,
+    #         installmedia: true,
+    #         enable_sharing: true,
+    #         gplus: {
+    #             key: '40588472264-7qt1n9prnkpj40ivnuuck4jcntbknluk.apps.googleusercontent.com',
+    #             secret: 'e8aiVDsZGUGqyNK-8tmMq3Wv'
+    #         },
+    #         srids: [99996]
+    #     }
+    #   # ansible.inventory_path = "hosts.ini"
+    #   # ansible.limit = "vagrant-apps"
+    # end
 
     # config.vm.provision :chef_solo do |chef|
     #     chef.cookbooks_path = "scripts/cookbooks"

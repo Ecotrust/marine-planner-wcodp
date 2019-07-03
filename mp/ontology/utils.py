@@ -8,7 +8,7 @@ def get_filters():
     print "Fetching URL {0}".format(get_url)
     try:
         results = requests.get(get_url)
-    except Exception, e:
+    except Exception as e:
         print "Hit exception {0}".format(e)
         if logger:
             logger.exception(e)

@@ -1,7 +1,7 @@
-from django.conf.urls.defaults import *
-from views import *
+from django.urls import re_path, include
+from .views import *
 
-urlpatterns = patterns('', 
-    (r'^send', send_feedback),
+urlpatterns = [
+    re_path(r'^send', send_feedback),
     # (r'^bookmark', send_bookmark),
-)
+]

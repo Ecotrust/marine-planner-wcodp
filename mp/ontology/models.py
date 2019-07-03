@@ -10,12 +10,12 @@ class Term(caching.base.CachingMixin, models.Model):
     name = models.CharField(max_length=125)
     slug = models.CharField(max_length=125)
     description = models.TextField(blank=True, null=True)
-    parents = models.ManyToManyField("self", blank=True, null=True, related_name="children")
+    parents = models.ManyToManyField("self", blank=True, related_name="children")
     # self.children.all()
     objects = caching.base.CachingManager() #caches in redis
 
 class RDFConcept(caching.base.CachingMixin, MPTTModel):
-    parent = TreeForeignKey('self', null=True, blank=True, related_name='children', db_index=True)
+    parent = TreeForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='children', db_index=True)
     # URI From RDF for this concept
     uri = models.CharField(max_length=255)
     preflabel = models.CharField(max_length=125)

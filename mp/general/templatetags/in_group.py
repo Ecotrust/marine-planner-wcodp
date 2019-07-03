@@ -1,5 +1,8 @@
 from django import template
-from django.utils.encoding import force_unicode
+try:
+    from django.utils.encoding import force_text
+except Exception as e:
+    from django.utils.encoding import force_unicode as force_text
 
 register = template.Library()
 
@@ -21,5 +24,5 @@ def in_group(user, groups):
         {% endif %}
 
     """
-    group_list = force_unicode(groups).split(',')
+    group_list = force_text(groups).split(',')
     return bool(user.groups.filter(name__in=group_list).values('name'))

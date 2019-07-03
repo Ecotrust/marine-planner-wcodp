@@ -25,12 +25,12 @@ admin.site.unregister(MapConfig)
 from madrona.user_profile.models import UserProfile
 admin.site.unregister(UserProfile)
 
-from registration.models import RegistrationProfile
-admin.site.unregister(RegistrationProfile)
+# from django_registration.models import RegistrationProfile
+# admin.site.unregister(RegistrationProfile)
 
-from djcelery.models import TaskState, WorkerState, IntervalSchedule, CrontabSchedule, PeriodicTask
-admin.site.unregister(TaskState)
-admin.site.unregister(WorkerState)
-admin.site.unregister(IntervalSchedule)
-admin.site.unregister(CrontabSchedule)
-admin.site.unregister(PeriodicTask)
+# from djcelery.models import TaskState, WorkerState, IntervalSchedule, CrontabSchedule, PeriodicTask
+# admin.site.unregister(TaskState)
+# admin.site.unregister(WorkerState)
+# admin.site.unregister(IntervalSchedule)
+# admin.site.unregister(CrontabSchedule)
+# admin.site.unregister(PeriodicTask)

@@ -3,6 +3,8 @@ from madrona.common.default_settings import *
 import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ROOT_DIR = os.path.dirname(os.path.dirname(BASE_DIR))
+PROJ_NAME = 'WCODP'
 TIME_ZONE = 'America/Vancouver'
 ROOT_URLCONF = 'urls'
 LOGIN_REDIRECT_URL = '/visualize'
@@ -15,16 +17,31 @@ DATABASES = {
     }
 }
 
-LOG_DIR = '/var/log/marine-planner-wcodp/'
-LOG_FILE = '/dev/null'
+LOG_DIR = '/usr/local/apps/WCODP/mp/logs/'
+LOG_FILE = '%s/wcodp.log' % LOG_DIR
 
 ADMIN_MEDIA_PATH = "/usr/local/venv/marine-planner/lib/python2.7/site-packages/django/contrib/admin/static/admin/"
 
+try:
+    STATICFILES_DIRS += [
+        "%s%s" % (os.path.join(ROOT_DIR, PROJ_NAME, 'media'), os.sep),
+        str(STATIC_ROOT),   # This comes from madrona's default_settings
+    ]
+except Exception as e:
+    STATICFILES_DIRS = [
+        "%s%s" % (os.path.join(ROOT_DIR, 'media'), os.sep),
+    ]
+
+
+STATIC_ROOT = '/usr/local/apps/WCODP/static/'
 STATIC_URL = '/static/'
+MEDIA_ROOT = '/usr/local/apps/WCODP/mediaroot/'
 MEDIA_URL = '/media/'
-INSTALLED_APPS += ('django_extensions',
+INSTALLED_APPS += (
+                   # 'django_extensions',
+                   'django.contrib.messages',
                    'social.apps.django_app.default',
-                   'django.contrib.staticfiles',
+                   # 'django.contrib.staticfiles',
                    'general',
                    'data_manager',
                    'mp_settings',
@@ -32,11 +49,14 @@ INSTALLED_APPS += ('django_extensions',
                    'explore',
                    'visualize',
                    'django.contrib.humanize',
-                   'flatblocks',
+                   # 'flatblocks',
                    'mp_proxy',
                    'ontology',
                    'django_mptt_admin',
-                   'map_proxy'
+                   'map_proxy',
+                   # 'django-compressor',
+                   # 'django_registration',
+                   'djcelery',
                    )
 
 GEOMETRY_DB_SRID = 99996
@@ -74,6 +94,28 @@ UNDER_MAINTENANCE_TEMPLATE = False
 
 TEMPLATE_DIRS = (os.path.realpath(os.path.join(os.path.dirname(__file__),
                  'templates').replace('\\', '/')), )
+
+# if not TEMPLATES:
+#     TEMPLATES = []
+# TEMPLATES += [
+#     'django.template.backends.django.DjangoTemplates',
+# ]
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': TEMPLATE_DIRS,
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
 
 
 AUTHENTICATION_BACKENDS = (
@@ -144,7 +186,7 @@ LOGGING = {
             # 'filters': ['require_debug_true'],
         },
         'null': {
-            "class": 'django.utils.log.NullHandler',
+            "class": 'logging.NullHandler',
         }
     },
     'loggers': {
@@ -175,8 +217,6 @@ logging.getLogger('django.db.backends').setLevel(logging.ERROR)
 
 try:
     from settings_local import *
-except ImportError: 
+except ImportError:
     import warnings
     warnings.warn("settings_local.py module missing.")
-
-

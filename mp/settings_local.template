@@ -1,4 +1,4 @@
-# This settings file is intended to be used as the second-half of a 
+# This settings file is intended to be used as the second-half of a
 # SplitSetting as described on the django wiki. See:
 # http://code.djangoproject.com/wiki/SplitSettings#Multiplesettingfilesimportingfromeachother
 # It will be imported at the end of settings.py
@@ -11,18 +11,18 @@
 # SECRET_KEY = '3j9~fjio+adjf93jda()#Jfk3ljf-ea9#$@#90dsfj9@0aj3()*fj3iow2f'
 
 # The following Google key is for localhost:
-# GOOGLE_API_KEY = 'ABQIAAAAu2dobIiH7nisivwmaz2gDhT2yXp_ZAY8_ufC3CFXhHIE1NvwkxSLaQmJjJuOq03hTEjc-cNV8eegYg' 
+# GOOGLE_API_KEY = 'ABQIAAAAu2dobIiH7nisivwmaz2gDhT2yXp_ZAY8_ufC3CFXhHIE1NvwkxSLaQmJjJuOq03hTEjc-cNV8eegYg'
 
 # You'll want to specify any database connection info here:
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'marco',
+        'NAME': 'wcodp',
         'USER': 'postgres',
      }
 }
 
-# This should be a local folder created for use with the install_media command 
+# This should be a local folder created for use with the install_media command
 # MEDIA_ROOT = '/usr/local/apps/marco-portal/mediaroot/'
 
 # Uncomment this line to cause Madrona to go into maintenance mode

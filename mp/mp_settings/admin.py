@@ -1,5 +1,5 @@
 from django.contrib import admin
-from models import MarinePlannerSettings 
+from .models import MarinePlannerSettings 
 
 class MarinePlannerSettingsAdmin(admin.ModelAdmin):
     list_display = ('project_name', 'latitude', 'longitude', 'zoom', 'active')

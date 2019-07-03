@@ -9,13 +9,13 @@
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h3>Sign In</h3>
         </div>
-        <div class="modal-body"> 
+        <div class="modal-body">
             <div class="control-group">
               <label class="control-label" for="username">Username</label>
               <div class="controls">
                 <input id="login-username" class="input-xlarge" type="text" name="username" placeholder="username" data-bind="event: { blur: verifyLogin, focus: turnOffInactiveError }" required>
                 <span class="help-inline" data-bind="visible: inactiveError" style="margin-left: -160px;">
-                    <div>The username you entered belongs to an account that has not yet been activated.</div>  
+                    <div>The username you entered belongs to an account that has not yet been activated.</div>
                     <div>If you requested this username, you should have received an email with a link that activates this account.</div>
                     <div>If you are having trouble activating your account, <a href="" data-dismiss="modal" data-toggle="modal" data-target="#feedback-modal">please let us know</a>.</div>
                 </span>
@@ -62,8 +62,8 @@
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h3>Forgotten Username</h3>
         </div>
-        <div class="modal-body"> 
-            <div> 
+        <div class="modal-body">
+            <div>
                 <p>Enter your email address below and we will send you an email containing your username.</p>
             </div>
             <div class="control-group">
@@ -81,7 +81,7 @@
             <input type="submit" class="btn btn-primary" value="Submit">
         </div>
   </form>
-</div>        
+</div>
 
 <!-- FORGOT PASSWORD -->
 <div id="forgot-password-modal" class="modal hide fade">
@@ -90,7 +90,7 @@
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h3>Password Change</h3>
         </div>
-        <div class="modal-body"> 
+        <div class="modal-body">
             <div class="control-group">
               <label class="control-label" for="email">Email</label>
               <div class="controls">
@@ -99,7 +99,7 @@
             </div>
             <div>
                 <input type="hidden" name="next" data-bind="attr: { value: currentURL() }">
-            </div>                    
+            </div>
         </div>
         <div class="modal-footer">
             <input type="button" href="#" class="btn" data-dismiss="modal" value="Close">
@@ -110,24 +110,24 @@
 
 <!-- REGISTRATION MODAL -->
 <div id="registration-modal" class="modal hide fade">
-    <form class="form-horizontal" id="registration-form" action="{% url mp_registration_register %}" method="post">{% csrf_token %}
+    <form class="form-horizontal" id="registration-form" action="{% url 'mp_registration_register' %}" method="post">{% csrf_token %}
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h3>Register</h3>
         </div>
-        <div class="modal-body">        
+        <div class="modal-body">
             <div class="control-group">
               <label class="control-label" for="first-name">First Name</label>
               <div class="controls">
                 <input class="input-xlarge empty-input" type="text" name="first_name" placeholder="First Name" required>
               </div>
-            </div>       
+            </div>
             <div class="control-group">
               <label class="control-label" for="last-name">Last Name</label>
               <div class="controls">
                 <input class="input-xlarge empty-input" type="text" name="last_name" placeholder="Last Name" required>
               </div>
-            </div>       
+            </div>
             <div class="control-group" data-bind="css: { error: usernameError }">
               <label class="control-label" for="username">Username</label>
               <div class="controls">
@@ -175,7 +175,7 @@
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h3>Password Change</h3>
         </div>
-        <div class="modal-body"> 
+        <div class="modal-body">
             <div>
                 <input type="hidden" name="username" value="{{user.username}}">
             </div>
@@ -210,7 +210,7 @@
         </div>
   </form>
 </div>
-        
+
 <!-- PROFILE MODAL -->
 <div id="profile-modal" class="modal hide fade">
     <form class="form-horizontal" id="profile-form" action="/mp_profile/update_profile/{{user.username}}/" method="post">{% csrf_token %}
@@ -218,13 +218,13 @@
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h3>{{user.username}}</h3>
         </div>
-        <div class="modal-body">        
+        <div class="modal-body">
             <div class="control-group">
               <label class="control-label" for="first-name">First Name</label>
               <div class="controls">
                 <input class="input-xlarge" type="text" name="first_name" value="{{user.first_name}}">
               </div>
-            </div>       
+            </div>
             <div class="control-group">
               <label class="control-label" for="last-name">Last Name</label>
               <div class="controls">

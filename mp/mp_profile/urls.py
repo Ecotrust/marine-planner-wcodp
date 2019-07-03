@@ -1,8 +1,10 @@
 from django.views.generic.base import TemplateView
-from django.conf.urls.defaults import *
+from django.urls import re_path, include
 from django.conf import settings
 from django.contrib.auth import views as auth_views
-from registration import views as reg_views
+from django_registration.backends.activation import views as registration_views
+activate = registration_views.ActivationView.activate
+register = registration_views.RegistrationView.register
 from mp_profile.views import *
 
 try:
@@ -10,37 +12,37 @@ try:
 except:
     use_openid = False
 
-urlpatterns = patterns('',
-    url(r'^password/reset/$', 
-        auth_views.password_reset, {'email_template_name': 'registration/mp_password_reset_email.html', 
+urlpatterns = [
+    re_path(r'^password/reset/$',
+        auth_views.PasswordResetView, {'email_template_name': 'registration/mp_password_reset_email.html',
                                     'from_email': settings.DEFAULT_FROM_EMAIL,
                                     'post_reset_redirect': '/mp_profile/password/reset/done/' }),
-    url(r'^password/reset/confirm/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$',
-        auth_views.password_reset_confirm, { 'template_name': 'registration/mp_password_reset_confirm.html',
+    re_path(r'^password/reset/confirm/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$',
+        auth_views.PasswordResetConfirmView, { 'template_name': 'registration/mp_password_reset_confirm.html',
                                              'post_reset_redirect': '/mp_profile/password/reset/complete/' },
         name='mp_password_reset_confirm'),
-    url(r'^password/reset/complete/$',
-        auth_views.password_reset_complete, { 'template_name': 'registration/mp_password_reset_complete.html' }),
-    url(r'^password/reset/done/$',
-        auth_views.password_reset_done, {'template_name': 'registration/mp_password_reset_done.html'}),
-    url(r'^password_change/(?P<username>\w+)/$', password_change),
+    re_path(r'^password/reset/complete/$',
+        auth_views.PasswordResetCompleteView, { 'template_name': 'registration/mp_password_reset_complete.html' }),
+    re_path(r'^password/reset/done/$',
+        auth_views.PasswordResetDoneView, {'template_name': 'registration/mp_password_reset_done.html'}),
+    re_path(r'^password_change/(?P<username>\w+)/$', password_change),
 
-    url(r'^signup/$',
-        reg_views.register,
-        {'backend': 'registration.backends.default.DefaultBackend', 
+    re_path(r'^signup/$',
+        register,
+        {'backend': 'registration.backends.default.DefaultBackend',
          #'disallowed_url': '',
          'success_url': 'registration/complete/',
          'template_name': 'registration/mp_registration_username_retry.html'},
          #'extra_context': {'username': 'Sam'}},
         name='mp_registration_register'
     ),
-    url(r'^signup/registration/complete/$',
+    re_path(r'^signup/registration/complete/$',
         TemplateView.as_view(template_name='registration/mp_registration_complete.html'),
         name='mp_registration_complete'),
-    
-    url(r'^forgot_username/$', send_username),
-    url(r'^update_profile/(?P<username>\w+)/$', update_profile, {'use_openid': use_openid}),
-    
-    url(r'^duplicate_username$', duplicate_username),
-    url(r'^verify_password$', verify_password),
-)
+
+    re_path(r'^forgot_username/$', send_username),
+    re_path(r'^update_profile/(?P<username>\w+)/$', update_profile, {'use_openid': use_openid}),
+
+    re_path(r'^duplicate_username$', duplicate_username),
+    re_path(r'^verify_password$', verify_password),
+]

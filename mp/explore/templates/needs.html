@@ -1,6 +1,6 @@
-{% extends 'explore_base.html' %} 
+{% extends 'explore_base.html' %}
 {% block main %}
-{% load flatblock_tags %}
+{% load flatblock_tags static %}
 
 <h2>{% flatblock "data_needs_title" %}</h2>
 {% flatblock "data_needs_intro" %}
@@ -11,7 +11,7 @@
         <form class="form-search layer-search">
             <input type="text" class="search-box" data-provide="typeahead" data-bind="value: searchTerm, event: { keyup: keySearch }">
             <a class="btn">
-                <i class="icon-remove icon-large"></i> 
+                <i class="icon-remove icon-large"></i>
             </a>
         </form>
     </div>
@@ -27,14 +27,14 @@
                     {{ theme.display_name }} Data Needs
                 </h3>
                 <p>
-                    {{ theme.description }} 
+                    {{ theme.description }}
                     <span class="pull-right"><a href="/learn/{{theme.name}}">Learn More... </a></span>
-                </p>  
+                </p>
             </div>
             <div class="span6">
                 <a href="/learn/{{theme.name}}">
                     <div class="image">
-                        <img src="{{MEDIA_URL}}mp/img/themes/{{theme.name}}.jpg" alt="">
+                        <img src="{% static 'mp/img/themes/{{theme.name}}.jpg' %}" alt="">
                         <div class="caption">
                           {{ theme.display_name }}
                         </div>
@@ -43,9 +43,9 @@
             </div>
         </div>
 	</div>
-    
+
     <div id="{{theme.name}}">
-        <div> 
+        <div>
               <ul class="unstyled">
                 {% for key, needs in theme_dict.items %}
                     {% if key == theme %}
@@ -55,7 +55,7 @@
                                     <h4>
                                         {{ need.name }}
                                     </h4>
-                                    <p> 
+                                    <p>
                                         {{ need.description }}
                                     </p>
                                     <div class="well">
@@ -89,7 +89,7 @@
 <script>
     $(document).ready( function() {
         var layers = [],
-            layer_index = {}, 
+            layer_index = {},
             search = function (val) {
                var layer = layer_index[val];
                //$(layer.layer.closest('.accordion-body')).addClass('in');
@@ -99,9 +99,9 @@
                //$('html, body').animate( { setTimeout(function() {$(window).scrollTop(layer.layer.find('h4').offset().top)}, 200) }, 'slow');
            };
         $('.data-need').each( function(index, need) {
-            var data_name = $.trim($(need).find('h4').text());     
+            var data_name = $.trim($(need).find('h4').text());
             layers.push(data_name);
-            layer_index[data_name] = { 
+            layer_index[data_name] = {
                 layer: $(need)
             };
         });
@@ -113,12 +113,12 @@
             search($(this).find('input').val());
         });
         $('input').on('keyup', function (event) {
-            event.preventDefault();    
+            event.preventDefault();
             if (event.which === 13) {
                 search($(this).val());
             }
         });
-        
+
         $('ul.typeahead').on('click', 'li', function () {
             search($(this).text());
         });

@@ -3,11 +3,11 @@ import warnings
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
-from django.utils import simplejson
+import json
 from django.views.decorators.cache import cache_page
 
 from general.decorators import jsonp
-from models import *
+from .models import *
 from mp_settings.models import MarinePlannerSettings
 
 
@@ -20,43 +20,43 @@ def get_json(request, project=None):
     except MarinePlannerSettings.DoesNotExist:
         warnings.warn("No marine planner settings objects configured.")
         activeSettings = MarinePlannerSettings.objects.none()
-        
-    if activeSettings.table_of_contents:
+
+    if hasattr(activeSettings, 'table_of_contents') and activeSettings.table_of_contents:
         layer_list = []
         for theme in activeSettings.table_of_contents.themes.all():
             for layer in theme.layers.all().order_by('name'):
                 layer_list.append(layer.toDict)
-        json = {
+        json_response = {
             "state": {"activeLayers": []},
             "layers": layer_list,
             "themes": [theme.toDict for theme in activeSettings.table_of_contents.themes.all().order_by('display_name')],
             "success": True
         }
-        return HttpResponse(simplejson.dumps(json))
+        return HttpResponse(json.dumps(json_response))
 
-    json = {
+    json_response = {
         "state": {"activeLayers": []},
         "layers": [layer.toDict for layer in Layer.objects.filter(is_sublayer=False).exclude(layer_type='placeholder').order_by('name')],
         "themes": [theme.toDict for theme in Theme.objects.all().order_by('display_name')],
         "success": True
     }
-    return HttpResponse(simplejson.dumps(json), content_type='application/json')
+    return HttpResponse(json.dumps(json_response), content_type='application/json')
 
 
 '''
-Responds with a json object containing a list of those layers containing a Geoportal UUID 
+Responds with a json object containing a list of those layers containing a Geoportal UUID
 '''
 @jsonp
-def geoportal_ids(request): 
+def geoportal_ids(request):
     geoportal_layers = Layer.objects.exclude(geoportal_id__isnull=True).exclude(geoportal_id__exact='')
-    json = { "geoportal_layers": [] }
+    json_response = { "geoportal_layers": [] }
     for layer in geoportal_layers:
-        json["geoportal_layers"].append({
+        json_response["geoportal_layers"].append({
             "name": layer.name,
             "slug": layer.slug,
             "uuid": layer.geoportal_id
         })
-    return HttpResponse(simplejson.dumps(json), content_type='application/json')
+    return HttpResponse(json.dumps(json_response), content_type='application/json')
 
 
 def create_layer(request):
@@ -69,43 +69,43 @@ def create_layer(request):
                 layer_type = type
             )
             layer.save()
-            
+
             for theme_id in themes:
                 theme = Theme.objects.get(id=theme_id)
                 layer.themes.add(theme)
             layer.save()
-            
-        except Exception, e:
+
+        except Exception as e:
             return HttpResponse(e.message, status=500)
 
-        result = layer_result(layer, message="Saved Successfully")            
-        return HttpResponse(simplejson.dumps(result))
+        result = layer_result(layer, message="Saved Successfully")
+        return HttpResponse(json.dumps(result))
 
-    
+
 def update_layer(request, layer_id):
     if request.POST:
         layer = get_object_or_404(Layer, id=layer_id)
-        
+
         try:
             url, name, type, themes = get_layer_components(request.POST)
             layer.url = url
-            layer.name = name        
+            layer.name = name
             layer.save()
-            
+
             for theme in layer.themes.all():
                 layer.themes.remove(theme)
             for theme_id in themes:
                 theme = Theme.objects.get(id=theme_id)
-                layer.themes.add(theme)            
-            layer.save()  
-            
-        except Exception, e:
+                layer.themes.add(theme)
+            layer.save()
+
+        except Exception as e:
             return HttpResponse(e.message, status=500)
 
         result = layer_result(layer, message="Edited Successfully")
-        return HttpResponse(simplejson.dumps(result))
-    
-    
+        return HttpResponse(json.dumps(result))
+
+
 def get_layer_components(request_dict, url='', name='', type='XYZ', themes=[]):
     if 'url' in request_dict:
         url = request_dict['url']
@@ -114,21 +114,21 @@ def get_layer_components(request_dict, url='', name='', type='XYZ', themes=[]):
     if 'type' in request_dict:
         type = request_dict['type']
     if 'themes' in request_dict:
-        themes = request_dict.getlist('themes') 
+        themes = request_dict.getlist('themes')
     return url, name, type, themes
-    
-    
+
+
 def layer_result(layer, status_code=1, success=True, message="Success"):
     result = {
-        "status_code":status_code,  
-        "success":success, 
+        "status_code":status_code,
+        "success":success,
         "message":message,
         "layer": layer.toDict,
         "themes": [theme.id for theme in layer.themes.all()]
     }
     return result
 
-def load_config(request): 
+def load_config(request):
     import json
     import os
     from django.core.exceptions import ObjectDoesNotExist
@@ -139,7 +139,7 @@ def load_config(request):
     toc_obj = wa_config['Themes'][0]['Marine Spatial Planning']['TOC'][0]
     layers = wa_config['layersNew']
     base_url = wa_config['DNRAGSServiceURL']
-   
+
     try:
         toc = TOC.objects.get(name='WA_CMSP')
     except ObjectDoesNotExist:
@@ -154,7 +154,7 @@ def load_config(request):
             except ObjectDoesNotExist:
                 layer = Layer(name=layer_name, layer_type='ArcRest', url=absolute_url, arcgis_layers='0')
                 layer.save()
-    
+
     for theme_name, layer_list in toc_obj.iteritems():
         try:
             theme = TOCTheme.objects.get(display_name=theme_name)

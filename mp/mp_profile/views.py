@@ -7,7 +7,7 @@ from madrona.user_profile.models import UserProfile
 from madrona.user_profile.forms import UserForm, UserProfileForm
 from django.conf import settings
 from django.contrib.auth import REDIRECT_FIELD_NAME
-import simplejson
+import json
 
 def verify_password(request):
     username = request.POST.get('username', None)
@@ -17,13 +17,13 @@ def verify_password(request):
         try:
             user = User.objects.get(username=username)
             if not user.is_active:
-                return HttpResponse(simplejson.dumps({'verified': 'inactive'}), mimetype="application/json", status=200)
+                return HttpResponse(json.dumps({'verified': 'inactive'}), mimetype="application/json", status=200)
             if user.check_password(password):
-                return HttpResponse(simplejson.dumps({'verified': True}), mimetype="application/json", status=200)
+                return HttpResponse(json.dumps({'verified': True}), mimetype="application/json", status=200)
             else:
-                return HttpResponse(simplejson.dumps({'verified': False}), mimetype="application/json", status=200)
+                return HttpResponse(json.dumps({'verified': False}), mimetype="application/json", status=200)
         except:
-            return HttpResponse(simplejson.dumps({'verified': False}), mimetype="application/json", status=200)
+            return HttpResponse(json.dumps({'verified': False}), mimetype="application/json", status=200)
     else:
         return HttpResponse("Received unexpected " + request.method + " request.", status=400)
 
@@ -38,7 +38,7 @@ def duplicate_username(request):
     else:
         return HttpResponse('username not found', status=400)
         
-    return HttpResponse(simplejson.dumps({'duplicate': found}), mimetype="application/json", status=200) 
+    return HttpResponse(json.dumps({'duplicate': found}), mimetype="application/json", status=200) 
 
 def send_username(request, use_openid=False, redirect_field_name=REDIRECT_FIELD_NAME):
     if request.method == 'POST':

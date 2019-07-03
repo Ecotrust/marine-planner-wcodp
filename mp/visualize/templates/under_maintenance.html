@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-{% load url from future %}
+{% load url static %}
 <html lang="en">
-    
+
     <head>
         <meta charset="utf-8">
         <title>
@@ -15,27 +15,27 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <!-- Le styles -->
-        <link href="{{MEDIA_URL}}/mp/css/bootstrap/bootstrap.css" rel="stylesheet">
-        <link href="{{MEDIA_URL}}/mp/css/mp/mp_style.css" rel="stylesheet">
-        <link href="{{MEDIA_URL}}/mp/css/openlayers/scalebar-thin.css" rel="stylesheet">
-        <link href="{{MEDIA_URL}}/mp/css/mp/style.css" rel="stylesheet">
-        <link href="{{MEDIA_URL}}/mp/css/pageguide/pageguide.css" rel="stylesheet">
+        <link href="{% static '/mp/css/bootstrap/bootstrap.css' %}" rel="stylesheet">
+        <link href="{% static '/mp/css/mp/mp_style.css' %}" rel="stylesheet">
+        <link href="{% static '/mp/css/openlayers/scalebar-thin.css' %}" rel="stylesheet">
+        <link href="{% static '/mp/css/mp/style.css' %}" rel="stylesheet">
+        <link href="{% static '/mp/css/pageguide/pageguide.css' %}" rel="stylesheet">
 
-        <link href="{{MEDIA_URL}}/mp/css/smoothness/jquery-ui-1.9.1.custom.css" rel="stylesheet">
-        <link href="{{MEDIA_URL}}/mp/css/jquery/jquery.mCustomScrollbar.css" rel="stylesheet">
-        <link href="{{MEDIA_URL}}mp/css/jquery/jquery.jscrollpane.css" rel="stylesheet">
-        <link rel="shortcut icon" href="{{MEDIA_URL}}mp/ico/favicon.ico">
+        <link href="{% static '/mp/css/smoothness/jquery-ui-1.9.1.custom.css' %}" rel="stylesheet">
+        <link href="{% static '/mp/css/jquery/jquery.mCustomScrollbar.css' %}" rel="stylesheet">
+        <link href="{% static 'mp/css/jquery/jquery.jscrollpane.css' %}" rel="stylesheet">
+        <link rel="shortcut icon" href="{% static 'mp/ico/favicon.ico' %}">
 
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
             <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-            <link href="{{MEDIA_URL}}/mp/css/mp/mp_style.ie.css" rel="stylesheet">
+            <link href="{% static '/mp/css/mp/mp_style.ie.css' %}" rel="stylesheet">
             <style>
                     #feedback-tab {
                         -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=-1.836909530733566e-16, M12=-1, M21=1, M22=-1.836909530733566e-16, SizingMethod='auto expand')";
                         left: 0px;
 
-                        /* IE6 and 7 */ 
+                        /* IE6 and 7 */
                         filter: progid:DXImageTransform.Microsoft.Matrix(
                                  M11=-1.836909530733566e-16,
                                  M12=-1,
@@ -45,24 +45,24 @@
 
                       }
             </style>
-            <script src="{{MEDIA_URL}}mp/js/respond.min.js"></script>
+            <script src="{% static 'mp/js/respond.min.js' %}"></script>
         <![endif]-->
         <!-- Le fav and touch icons -->
         <!--[if IE 7]>
-          <link rel="stylesheet" href="{{MEDIA_URL}}mp/css/font/font-awesome-ie7.css">
+          <link rel="stylesheet" href="{% static 'mp/css/font/font-awesome-ie7.css' %}">
         <![endif]-->
 
         <style>
         .navbar .nav > li:hover > a, .navbar .nav > li.active > a, .navbar .nav > li:hover > a:visited {
             height: 30px;
-           
+
         }
         .navbar .nav > li > a {
             height: 25px;
         }
 
         </style>
-        
+
         <!-- Google Analytics -->
         <script type="text/javascript">
 
@@ -77,12 +77,12 @@
           })();
 
         </script>
-        
-        
+
+
     </head>
-    
+
     <body>
-        
+
         <header role="banner">
             <div class="navbar navbar-fixed-top" style="height: 82px;">
                 <div class="navbar-inner">
@@ -109,13 +109,13 @@
                 </div>
             </div>
         </header> <!-- end header -->
-        
+
         <div style="margin-left: 60px; padding-top: 20px;">
             <p>We're Sorry. </p>
             <p>The Marine Planner site is temporarily down for maintenance. </p>
             <p>We will be back up and running shortly. </p>
         </div>
-       
+
     </body>
 
 </html>
